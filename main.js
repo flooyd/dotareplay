@@ -113,35 +113,14 @@ replaysNeeded = matchids => {
   I will be happy to help :D */
 
 expressApp.get('/api', (req, res) => {
-    getParsedReplay(4162525146)
-    .then(replay => {
-      fs.writeFile('./replays/replay.json', replay, (err) => {
-        console.log('write file')
-        if(err) {
-          console.log(err);
-          return res.json('error');
-        } else {
-          console.log('saved');
-          let objects = [];
-          fs.createReadStream('./replays/replay.json')
-          .pipe(ndjson.parse())
-          .on('data', obj => {
-            objects.push(obj);
-          })
-          .on('finish', () => {
-            objects = objects.filter(o => {
-              if(o.ispvpkill || o.type === 'chatwheel') {
-                return o;
-              }
-            })
-            res.json(objects);
-          })
-        }
-      })
-    })
-    .catch(err => {
-      res.json(err);
-    })
+  getParsedReplay('4161215675')
+  .then(replay => {
+    console.log('api endpoint');
+    res.json(replay);
+  })
+  .catch(err => {
+    res.json(err);
+  })
 })
 
 let win;
