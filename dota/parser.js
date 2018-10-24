@@ -15,7 +15,7 @@ module.exports = {getParsedReplay}
 
 function chooseParse(matchid, resolve) {
   fs.readdir(odReplayFolder, (err, files) => {
-    console.log('hello from odReplayFolder');
+    console.log('Function chooseParse #Story >Pre-game horn');
     if(err) throw err;
     let odParsedName;
     files.forEach(f => {
@@ -33,7 +33,7 @@ function chooseParse(matchid, resolve) {
 }
 
 function odParse(matchid, resolve) {
-  console.log('parsing replay');
+  console.log('Function: odPares #Story >Commend Open Dota');
   fs.readdir(dotaReplayFolder, (err, files) => {
     let dotaReplayName;
     if (err)
@@ -44,7 +44,7 @@ function odParse(matchid, resolve) {
       }
     });
     if (!dotaReplayName) {
-      throw new Error('Replay not found');
+      throw new Error('Replay not found #Story >GG report pls #Error: no replay in replay directory');
     }
     let readStream = fs.readFileSync(`${dotaReplayFolder}/${dotaReplayName}`);
     let options = {
@@ -71,41 +71,77 @@ function odParse(matchid, resolve) {
 }
 
 function myParse(odParsedName, resolve) {
-  let objects = [];
-  let data = {};
-  let epilogue = {};
-  let intervals = [];
-  let chats = [];
-  console.log('In my parse');
+  let data = {
+    chats: [],
+    chatWheels: [],
+    purchases: [],
+    matchInfo: {},
+    intervals: []
+  }
+  console.log('Function: myParse #Story Various >GG WP and >One of my favorites');
   
   fs.createReadStream(`${odReplayFolder}/${odParsedName}`)
     .pipe(ndjson.parse())
-    .on('data', obj => {
-      objects.push(obj);
-    })
-    .on('finish', () => {
-      console.log('read finished');
-      objects = objects.filter((o, i, a) => {
+    .on('data', o => {
         if (o.type === 'epilogue') {
-          a[i].key = JSON.parse(a[i].key);
-          a[i].key.gameInfo_.dota_.playerInfo_.forEach((p, i, a) => {
-            a[i].heroName_ = String.fromCharCode.apply(null, a[i].heroName_.bytes);
-            a[i].playerName_ = String.fromCharCode.apply(null, a[i].playerName_.bytes);
-          });
-          epilogue = o;
+          return data.matchInfo = getMatchInfo(o);
+        }
+        if(o.type === 'DOTA_COMBATLOG_PURCHASE') {
+          return data.purchases.push(o);
         }
         if (o.type === 'chat') {
-          chats.push(o);
+          return data.chats.push(o);
+        }
+        if (o.type === 'chatwheel') {
+          return data.chatWheels.push(o);
         }
         if (o.type === 'interval') {
-          intervals.push(o);
+          return data.intervals.push(o); 
         }
-      });
-      data = {
-        epilogue,
-        intervals,
-        chats
-      };
+        if(o.type === 'DOTA_COMBATLOG_PURCHASE') {
+          return data.purchases.push(o);
+        }
+      })
+    .on('finish', () => {
+      console.log('>The battle begins')
+      makeInventories(data.purchases, data.matchInfo.players_);
       return resolve(data);
-    });
+    }); 
+}
+
+const getMatchInfo = o => {
+  o.key = JSON.parse(o.key)
+  console.log(o.key)
+  let {playbackTime_, playbackTicks_} = o.key
+  let {endTime_, gameMode_, gameWinner_, leagueid_, matchId_} = o.key.gameInfo_.dota_;
+  let players_ = o.key.gameInfo_.dota_.playerInfo_;
+  realName(players_);
+  
+  return {
+    playbackTime_,
+    playbackTicks_,
+    endTime_,
+    gameMode_, 
+    gameWinner_, 
+    leagueid_,
+    matchId_,
+    players_
+  }
+}
+
+function realName(players_) {
+  players_.forEach((p, i, a) => {
+    a[i].heroName_ = String.fromCharCode.apply(null, p.heroName_.bytes);
+    a[i].playerName_ = String.fromCharCode.apply(null, p.playerName_.bytes);
+  });
+}
+
+function makeInventories(purchases, players) {
+  purchases = purchases.filter(p => {
+    if(p.slot !== undefined) {
+      return p;
+    }
+  });
+
+  console.log(purchases.length);
 }

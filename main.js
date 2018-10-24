@@ -140,10 +140,10 @@ parseMatch();
 function createWindow() {
   win =  new BrowserWindow({});
 
-  win.loadURL('http://localhost:3001');
+  //win.loadURL('https://google.com');
 
 //open dev tools
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.on('closed', () => {
     win = null;
