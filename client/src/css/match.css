@@ -1,3 +1,14 @@
 .match {
-    border: 1px solid crimson;
+  border: 1px solid black;
+  text-align: left;
+  padding: 5px;
+}
+
+.matchId {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.matchIdNumber {
+  font-weight: normal;
 }

@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import Player from './Player.js'
 import './css/match.css'
 
-class Match extends Component {
+class Match extends Component { 
   getPlayers = () => {
     let players = [];
 
     this.props.match.matchInfo.players_.forEach((p,i) => {
-      let hero = p.heroName_;
       let key = `player${i}`;
-      hero = hero.slice(14);
+     
       players.push(
-        <Player key={key} hero={hero} playerName={p.playerName_} slot={i}/>
+        <Player key={key} player={p} kills={this.props.match.DOTA_COMBATLOG_DEATH} slot={i}/>
       )
     });
     

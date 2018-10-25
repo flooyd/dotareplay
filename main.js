@@ -40,12 +40,13 @@ expressApp.get('/match', (req, res) => {
 
 //See two functions below
 expressApp.post('/api/getreplays', jsonParser, (req, res) => {
+  
   let matchids = req.body;
   replaysNeeded(matchids)
   .then(matches => {
     downloadReplays(matches)
     .then(replays => {
-      res.json(replays);
+      res.send(replays);
     })
   })
 });
@@ -62,7 +63,7 @@ downloadReplays = async (matchids) => {
     let replayLinks = [];
     let interval = setInterval(() => {
       if(counter <= matchids.length - 1) {
-        console.log(counter);
+        console.log(`Number of matches: ${counter}`);
         const matchid = matchids[counter];
         const url = `https://api.opendota.com/api/matches/${matchid}`;
         request(url, (err, res, body) => {
@@ -113,7 +114,7 @@ replaysNeeded = matchids => {
   I will be happy to help :D */
 
 expressApp.get('/api', (req, res) => {
-  getParsedReplay('4161215675')
+  getParsedReplay('4164202378')
   .then(replay => {
     console.log('api endpoint');
     res.json(replay);
@@ -140,9 +141,9 @@ parseMatch();
 function createWindow() {
   win =  new BrowserWindow({});
 
-  //win.loadURL('https://google.com');
+  win.loadURL('http://localhost:3001');
 
-//open dev tools
+  //open dev tools
   //win.webContents.openDevTools();
 
   win.on('closed', () => {

@@ -1,7 +1,4 @@
 .matchList {
     width: calc(100vw - 40px);
-    min-height: 300px;
-    margin: 20px;
-    border: 2px solid red;
     margin: 0 auto;
 }

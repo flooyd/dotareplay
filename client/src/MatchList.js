@@ -11,9 +11,9 @@ class MatchList extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch('http://localhost:3000/api');
-    let details = await response.json();
-    console.log(details);
-    this.updateMatches(details);
+    let match = await response.json();
+    console.log(match);
+    this.updateMatches(match);
   }
 
   updateMatches = match => {

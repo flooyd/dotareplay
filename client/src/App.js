@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import MatchList from './MatchList.js';
-import './App.css';
+import './css/reset.css';
+import './css/app.css';
 
 class App extends Component {
-  componentDidMount = async () => {
-    
-  }
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <MatchList/>
       </div>
     );

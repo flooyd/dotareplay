@@ -8,12 +8,28 @@ class Player extends Component {
       inventory: ['']
     }
   }
+  
+  getKills() {
+    let playerKills = this.props.kills.filter(k => {
+      if(k.ispvpkill & k.attackername === this.props.player.heroName_) {
+        return k;
+      }
+    });
+
+    let kills = [];
+    playerKills.forEach(k => {
+      kills.push(
+        <p>{k.attackername} killed {k.targetname}</p>
+      )
+    });
+
+    return kills;
+  }
+
   render() {
     return (
       <div className="player">
-        <p>{this.props.hero}</p>
-        <p>{this.props.playerName}</p>
-        <p>{this.props.slot}</p>
+        {this.getKills()}
       </div>
     );
   }
