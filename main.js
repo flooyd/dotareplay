@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 /* ----- DOTAREPLAY MODULES ----- */
-const robot = require('./dota/robot');
+//const robot = require('./dota/robot');
 const {openObs, startRecording} = require('./dota/obs');
 const {getMatch} = require('./web/opendota');
 // - TODO - needs to be dynamic and able to be set by user 

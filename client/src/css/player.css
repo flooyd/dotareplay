@@ -52,3 +52,15 @@
   cursor: pointer;
   background-color: white;
 }
+
+.player .killsContainer .kill img {
+  vertical-align: middle;
+  max-height: 32px;
+  max-width: 32px;
+  margin: 0px 5px;
+}
+
+.kill {
+  text-align: center;
+  margin: 7px 0px;
+}
