@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Match from './Match.js';
+import util from './util/index.js';
 import './css/matchList.css';
 
 class MatchList extends Component {
@@ -9,9 +10,12 @@ class MatchList extends Component {
       matches: []
     }
   }
+  
   componentDidMount = async () => {
     let response = await fetch('http://localhost:3000/api');
     let match = await response.json();
+    util.setMatch(match);
+    util.setLast10Intervals();
     console.log(match);
     this.updateMatches(match);
   }

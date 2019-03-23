@@ -2,8 +2,8 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const ndjson = require('ndjson');
-const dotaReplayFolder = 'T:\\STEAAAAMMM\\steamapps\\common\\dota 2 beta\\game\\dota\\replays'
-const odReplayFolder = path.join(__dirname, '../replaysod');
+const dotaReplayFolder = 'C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/replays';
+const odReplayFolder = path.join(__dirname, '../data/replaysod');
 
 const getParsedReplay = matchid => {
   return new Promise((resolve, reject) => {
@@ -20,6 +20,7 @@ function chooseParse(matchid, resolve) {
     let odParsedName;
     files.forEach(f => {
       if(f.includes(matchid)) {
+        console.log(f);
         odParsedName = f;
       }
     })
@@ -33,7 +34,7 @@ function chooseParse(matchid, resolve) {
 }
 
 function odParse(matchid, resolve) {
-  console.log('Function: odPares >Commend Open Dota');
+  console.log('Function: odParse >Commend Open Dota');
   fs.readdir(dotaReplayFolder, (err, files) => {
     let dotaReplayName;
     if (err)
@@ -93,6 +94,7 @@ function myParse(odParsedName, resolve, matchid) {
       return resolve(data);
     }); 
 }
+
 
 const getMatchInfo = o => {
   o.key = JSON.parse(o.key);

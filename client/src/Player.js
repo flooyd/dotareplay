@@ -1,35 +1,54 @@
 import React, { Component } from 'react';
+import util from './util/';
+import Kill from './Kill';
 import './css/player.css'
 
 class Player extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inventory: ['']
+      stats: {}
     }
   }
-  
-  getKills() {
-    let playerKills = this.props.kills.filter(k => {
-      if(k.ispvpkill & k.attackername === this.props.player.heroName_) {
-        return k;
-      }
-    });
 
-    let kills = [];
-    playerKills.forEach(k => {
-      kills.push(
-        <p>{k.attackername} killed {k.targetname}</p>
+  getHeroEndGameStats = () => {
+    if(this.props.slot || this.props.slot === 0) {
+      let stats = util.getEndGameStats(this.props.slot);
+      let hero = util.getHero(this.props.slot);
+      
+      let src = `http://cdn.dota2.com${hero.img}`;
+      return (
+        <div className="scoreHero">
+          <img src={src} alt={hero.localized_name} className='heroImg'/>
+          <div className="playerInfo">
+            <p className="playerName">{this.props.player.playerName_}</p>
+            <p className="playerHeroName">{hero.localized_name}</p>
+          </div>
+          <p className="playerKills">{stats.kills}</p>
+          <p className="playerKills">{stats.deaths}</p>
+          <p className="playerKills">{stats.assists}</p>
+          <p className="playerKills">{stats.gold.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+        </div>
+        
       )
-    });
+    }
+  }
 
-    return kills;
+  getPVPKills = () => {
+    if(this.props.slot || this.props.slot === 0 ) {
+      let hero = util.getHero(this.props.slot);
+      let kills = util.getPVPKills(hero.name);
+    }
   }
 
   render() {
     return (
       <div className="player">
-        {this.getKills()}
+        {this.getHeroEndGameStats()}
+        <div className="killsContainer">
+          
+        </div>
+        {this.getPVPKills()}
       </div>
     );
   }

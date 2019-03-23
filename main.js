@@ -104,7 +104,7 @@ replaysNeeded = matchids => {
 
 /*This is just a sandbox to learn how to parse ndjson after java replay parser.
 
-  You can see a parsed replay in ./replays/replay.json. If you ctrl+f "ispvpkill," 
+  You can see a parsed replay in ./replays/replay.json. If you ctrl+f "ispvpkill" 
   that was added by me in the Java parser. Find the opendota parser on github (google).
   You will need to clone that parser, build it using Maven after making modifications,
   and then run it (it runs on localhost:5600). You can then POST a file to it, and it 
@@ -114,7 +114,7 @@ replaysNeeded = matchids => {
   I will be happy to help :D */
 
 expressApp.get('/api', (req, res) => {
-  getParsedReplay('4164202378')
+  getParsedReplay('4555639620')
   .then(replay => {
     console.log('api endpoint');
     res.json(replay);

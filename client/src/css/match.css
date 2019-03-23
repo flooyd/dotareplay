@@ -2,13 +2,52 @@
   border: 1px solid black;
   text-align: left;
   padding: 5px;
+  background-color: #222;
 }
 
 .matchId {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  color: white;
+  float: right;
 }
 
 .matchIdNumber {
   font-weight: normal;
 }
+
+.team {
+  width: 50%;
+}
+
+.radiant, .dire {
+  font-size: 22px;
+  margin-bottom: 5px;
+  width: 150px;
+}
+
+.radiant {
+  color: white;
+  text-shadow: 0 0 3px greenyellow;
+}
+
+.dire {
+  margin-top: 10px;
+  color: white;
+  text-shadow: 0 0 10px red;
+}
+
+.scoreHeader {
+  margin-left: 258px;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 5px;
+  clear: right;
+}
+
+.scoreHeader p {
+  display: inline-block;
+  margin-right: 30px;
+  width: 20px;
+  text-align: center;
+}
+

@@ -3,18 +3,26 @@ import Player from './Player.js'
 import './css/match.css'
 
 class Match extends Component { 
-  getPlayers = () => {
-    let players = [];
+  getPlayers = dire => {
+    let teamPlayers = [];
+    let players = this.props.match.matchInfo.players_;
+    let i = 0;
+    let length = 5;
 
-    this.props.match.matchInfo.players_.forEach((p,i) => {
+    if(dire) {
+      i = 5;
+      length = 10;
+    }
+
+  for(i; i < length; i++) {
       let key = `player${i}`;
      
-      players.push(
-        <Player key={key} player={p} kills={this.props.match.DOTA_COMBATLOG_DEATH} slot={i}/>
+      teamPlayers.push(
+        <Player key={key} player={players[i]} slot={i}/>
       )
-    });
+    }
     
-    return players;
+    return teamPlayers;
   }
   render() {
     return (
@@ -24,9 +32,19 @@ class Match extends Component {
                      {this.props.match.matchInfo.matchId_}
                     </span>
         </p>
-        <div className="players">
-          {this.getPlayers()}
+        <div className="scoreHeader">
+          <p>K</p>
+          <p>D</p>
+          <p>A</p>
+          <p>Gold</p>
         </div>
+        <div>
+        <p className="radiant">The Radiant</p>
+        {this.getPlayers()}
+        <p className="dire">The Dire</p>
+        {this.getPlayers(true)}
+        </div>
+        
       </div>
     );
   }
