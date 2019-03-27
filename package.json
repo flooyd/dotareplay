@@ -17,12 +17,14 @@
     "electron": "^4.1.1",
     "express": "^4.16.4",
     "ndjson": "^1.5.0",
+    "node-gyp": "^3.8.0",
     "node-key-sender": "^1.0.10",
+    "node-process-windows": "0.0.2",
     "nodemon": "^1.18.4",
     "obs-websocket-js": "^1.2.0",
     "robotjs": "^0.5.1"
   },
   "devDependencies": {
-    "electron-rebuild": "^1.8.2"
+    "electron-rebuild": "^1.8.4"
   }
 }

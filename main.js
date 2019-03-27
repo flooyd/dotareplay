@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 /* ----- DOTAREPLAY MODULES ----- */
-//const robot = require('./dota/robot');
+const robot = require('./dota/robot');
 const {openObs, startRecording} = require('./dota/obs');
 const {getMatch} = require('./web/opendota');
 // - TODO - needs to be dynamic and able to be set by user 
@@ -114,7 +114,7 @@ replaysNeeded = matchids => {
   I will be happy to help :D */
 
 expressApp.get('/api', (req, res) => {
-  getParsedReplay('4555639620')
+  getParsedReplay('4578740799')
   .then(replay => {
     console.log('api endpoint');
     res.json(replay);
@@ -129,6 +129,17 @@ let win;
 const parseMatch = matchid => {
  
 }
+
+
+expressApp.get('/gotoTick/:tick', (req, res) => {
+  let tick = req.params.tick;
+  robot.focusDota2();
+  setTimeout(() => {
+    robot.gotoTick(tick);
+    res.status(200).send();
+  }, 500)
+  
+})
 
 expressApp.listen(3000, () => {
   console.log('Express App listening');

@@ -17,12 +17,29 @@ class Kill extends Component {
     return(s-(s%=60))/60+(9<s?':':':0')+s
   }
 
+  handleTimeClicked = async (e,tick) => {
+    let response = await fetch(`http://localhost:3000/gotoTick/${tick}`);
+    console.log(response);
+  }
+
   getKillString = () => {
-    let {attacker, enemy, ability, abilityImg, time} = this.props;
+    let {attacker, enemy, ability, abilityImg, time, tick} = this.props;
     let img = <img src={abilityImg} alt={ability}/>
-    return <p>{attacker} killed {enemy} with 
-              {img}
-              at {this.fmtMSS(time)}</p>
+
+    if(ability === 'UNKNOWN') {
+      img = 'Unknown inflictor'
+    }
+   
+    return (
+      <div className='kill'>
+        <p>{enemy}</p>
+        <p>{img}</p>
+        <div className="killTime">
+          <p>{this.fmtMSS(time)}</p>
+          <button onClick={e => this.handleTimeClicked(e,tick)}>Goto Tick</button>
+        </div>
+      </div>
+    )
   }
 
 

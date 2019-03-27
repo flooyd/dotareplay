@@ -38,11 +38,15 @@ class Player extends Component {
     if(this.state.showKills && (this.props.slot || this.props.slot === 0)) {
       let hero = util.getHero(this.props.slot);
       let kills = util.getPVPKills(hero.name);
+
       let killElements = kills.map((k, i) => {
+        
         let attackerLocalized = util.getHeroLocalizedName(k.attackername);
         let enemyLocalized = util.getHeroLocalizedName(k.targetname)
         let ability = util.getAbility(k.inflictor);
-        return <Kill key={`Player${this.props.slot}-Kill${i}`} 
+
+        return <Kill key={`Player${this.props.slot}-Kill${i}`}
+                     tick={k.currentTick} 
                      attacker={attackerLocalized}
                      enemy={enemyLocalized}
                      inflictor={k.inflictor}
@@ -50,6 +54,7 @@ class Player extends Component {
                      ability={ability.dname}
                      abilityImg={ability.img}/>
       })
+
       return killElements;
     }
   }
@@ -60,8 +65,8 @@ class Player extends Component {
 
   render() {
     return (
-      <div className="player" onClick={this.handlePlayerClicked}>
-        {this.getHeroEndGameStats()}
+      <div className="player">
+        <div className="playerStats" onClick={this.handlePlayerClicked}>{this.getHeroEndGameStats()}</div>
         <div className="killsContainer">
           {this.getPVPKills()}
         </div>
