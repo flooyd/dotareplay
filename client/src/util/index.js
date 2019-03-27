@@ -1,4 +1,5 @@
 let match = {};
+let firstBlood;
 let last10Intervals = {};
 let heroes = require('../dota/heroes.json');
 let abilities = require('../dota/abilities.json');
@@ -9,8 +10,18 @@ const setLast10Intervals = () => {
   console.log(last10Intervals);
 };
 
+const setFirstBlood = () => {
+  let firstBlood = [];
+  firstBlood = match.DOTA_COMBATLOG_DEATH.filter(k => {
+    if(k.currentTick === match.DOTA_COMBATLOG_FIRST_BLOOD[0].currentTick) {
+      k.firstBlood = true;
+      return k;
+    }
+  })
+  console.log(firstBlood);
+}
+
 const getAbility = abilityName => {
-  console.log(abilityName)
   if(!abilities[abilityName]) {
     return {
       dname: 'UNKNOWN',
@@ -44,6 +55,7 @@ const getPVPKills = heroName => {
   let kills = match.DOTA_COMBATLOG_DEATH;
   kills = kills.filter(k => {
     if(k.sourcename === heroName && k.targethero) {
+      console.log(k);
       return k;
     }
   });
@@ -90,5 +102,7 @@ module.exports = {
   getHero, 
   getPVPKills,
   getHeroLocalizedName,
-  getAbility
+  getAbility,
+  setFirstBlood,
+  firstBlood
 };

@@ -42,8 +42,14 @@ class Player extends Component {
         let attackerLocalized = util.getHeroLocalizedName(k.attackername);
         let enemyLocalized = util.getHeroLocalizedName(k.targetname)
         let ability = util.getAbility(k.inflictor);
+        let firstBlood = false;
+        if (k.firstBlood) {
+          firstBlood = true;
+        }
         return <Kill key={`Player${this.props.slot}-Kill${i}`} 
                      attacker={attackerLocalized}
+                     firstBlood={firstBlood}
+                     currentTick={k.currentTick}
                      enemy={enemyLocalized}
                      inflictor={k.inflictor}
                      time={k.time}
