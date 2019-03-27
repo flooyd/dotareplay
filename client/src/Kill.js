@@ -9,7 +9,7 @@ class Kill extends Component {
   }
 
   componentDidMount = async () => {
-   console.log(this.props);
+   //console.log(this.props);
   }
 
   //https://stackoverflow.com/a/37770048
@@ -23,8 +23,13 @@ class Kill extends Component {
   }
 
   getKillString = () => {
-    let {attacker, enemy, ability, abilityImg, time, tick} = this.props;
+    let {attacker, enemy, ability, abilityImg, time, firstBlood, tick} = this.props;
     let img = <img src={abilityImg} alt={ability}/>
+    if(firstBlood) {
+      firstBlood = ' - FIRST BLOOD!'
+    } else {
+      firstBlood = null;
+    }
 
     if(ability === 'UNKNOWN') {
       img = 'Unknown inflictor'
@@ -33,6 +38,7 @@ class Kill extends Component {
     return (
       <div className='kill'>
         <p>{enemy}</p>
+        <p>{firstBlood}</p>
         <p>{img}</p>
         <div className="killTime">
           <p>{this.fmtMSS(time)}</p>

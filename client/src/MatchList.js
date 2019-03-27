@@ -16,6 +16,7 @@ class MatchList extends Component {
     let match = await response.json();
     util.setMatch(match);
     util.setLast10Intervals();
+    util.setFirstBlood();
     console.log(match);
     this.updateMatches(match);
   }
