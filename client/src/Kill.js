@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import util from './util/';
+
 //import './css/Kill.css';
 
 class Kill extends Component {
-  constructor(props) {
-    super(props);
-    
-  }
-
   componentDidMount = async () => {
    //console.log(this.props);
   }
@@ -23,8 +18,9 @@ class Kill extends Component {
   }
 
   getKillString = () => {
-    let {attacker, enemy, ability, abilityImg, time, firstBlood, tick} = this.props;
+    let {enemy, ability, abilityImg, time, firstBlood, tick, multiKill} = this.props;
     let img = <img src={abilityImg} alt={ability}/>
+
     if(firstBlood) {
       firstBlood = ' - FIRST BLOOD!'
     } else {
@@ -34,12 +30,13 @@ class Kill extends Component {
     if(ability === 'UNKNOWN') {
       img = 'Unknown inflictor'
     }
-   
+
     return (
       <div className='kill'>
         <p>{enemy}</p>
         <p>{firstBlood}</p>
         <p>{img}</p>
+        <p>{multiKill}</p>
         <div className="killTime">
           <p>{this.fmtMSS(time)}</p>
           <button onClick={e => this.handleTimeClicked(e,tick)}>Goto Tick</button>

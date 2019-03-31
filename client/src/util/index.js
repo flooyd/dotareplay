@@ -11,40 +11,40 @@ const setLast10Intervals = () => {
 };
 
 const setFirstBlood = () => {
-  let firstBlood = [];
-  firstBlood = match.DOTA_COMBATLOG_DEATH.filter(k => {
-    if(k.currentTick === match.DOTA_COMBATLOG_FIRST_BLOOD[0].currentTick) {
+  match.DOTA_COMBATLOG_DEATH.filter(k => {
+    if (k.currentTick === match.DOTA_COMBATLOG_FIRST_BLOOD[0].currentTick) {
       k.firstBlood = true;
       return k;
     }
+    return null;
   })
-  console.log(firstBlood);
 }
 
 const getAbility = abilityName => {
-  if(!abilities[abilityName]) {
+  if (!abilities[abilityName]) {
     return {
       dname: 'UNKNOWN',
       img: ''
     }
   }
-  let {dname, img} = abilities[abilityName];
+  let { dname, img } = abilities[abilityName];
   return {
-    dname, 
-    img: 'http://cdn.dota2.com' + img};
+    dname,
+    img: 'http://cdn.dota2.com' + img
+  };
 }
 
 const getHero = (slot) => {
   let hero_id = last10Intervals[slot].hero_id;
   let hero = heroes[hero_id];
-  
+
   return hero;
 }
 
 const getHeroLocalizedName = (heroName) => {
   let localizedName;
   Object.keys(heroes).forEach(h => {
-    if(heroes[h].name === heroName) {
+    if (heroes[h].name === heroName) {
       localizedName = heroes[h].localized_name;
     }
   })
@@ -54,20 +54,58 @@ const getHeroLocalizedName = (heroName) => {
 const getPVPKills = heroName => {
   let kills = match.DOTA_COMBATLOG_DEATH;
   kills = kills.filter(k => {
-    if(k.sourcename === heroName && k.targethero) {
-      console.log(k);
+    if (k.sourcename === heroName && k.targethero) {
+      k.multiKill = getMultiKillValue(k.currentTick);
       return k;
     }
+    return null;
   });
-  
+
   return kills;
+}
+
+const getMultiKillValue = (currentTick) => {
+  let multiKill = null;
+  
+  match.DOTA_COMBATLOG_MULTIKILL.find(mk => {
+    if (mk.currentTick === currentTick) {
+      multiKill = mk;
+    }
+
+    return null;
+  })
+
+  if(multiKill) {
+    switch (multiKill.value) {
+      case 0:
+        return null;
+        break;
+      case 1:
+        return null;
+        break;
+      case 2: 
+        return 'DOUBLE Kill!'
+        break;
+      case 3: 
+        return 'TRIPLE Kill!'
+        break;
+      case 4:
+        return 'ULTRA Kill!'
+      case 5:
+        return 'RAMPAGE!'
+        break;
+    }
+  }
+
+  return null;
+  
 }
 
 const getEndGameStats = (slot) => {
   let interval = last10Intervals[slot];
-  let {assists, deaths, denies, firstblood_claimed, gold, hero_id,
-       kills, level, lh, obs_placed, randomed, sen_placed, stuns,
-       towers_killed, x, xp, y} = interval;
+  let { assists, deaths, denies, firstblood_claimed, gold, hero_id,
+    kills, level, lh, obs_placed, randomed, sen_placed, stuns,
+    towers_killed, x, xp, y } = interval;
 
   return {
     assists,
@@ -80,7 +118,7 @@ const getEndGameStats = (slot) => {
     level,
     lh,
     obs_placed,
-    randomed, 
+    randomed,
     sen_placed,
     stuns,
     towers_killed,
@@ -96,10 +134,10 @@ const setMatch = m => {
 }
 
 module.exports = {
-  getEndGameStats, 
-  setMatch, 
-  setLast10Intervals, 
-  getHero, 
+  getEndGameStats,
+  setMatch,
+  setLast10Intervals,
+  getHero,
   getPVPKills,
   getHeroLocalizedName,
   getAbility,

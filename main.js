@@ -114,7 +114,7 @@ replaysNeeded = matchids => {
   I will be happy to help :D */
 
 expressApp.get('/api', (req, res) => {
-  getParsedReplay('4578740799')
+  getParsedReplay('4581654531')
   .then(replay => {
     console.log('api endpoint');
     res.json(replay);
@@ -150,7 +150,7 @@ parseMatch();
 
 
 function createWindow() {
-  win =  new BrowserWindow({});
+  win =  new BrowserWindow({width: 1920, height: 1080, transparent: true, frame: false});
 
   win.loadURL('http://localhost:3001');
 

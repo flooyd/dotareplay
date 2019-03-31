@@ -38,6 +38,7 @@ class Player extends Component {
     if(this.state.showKills && (this.props.slot || this.props.slot === 0)) {
       let hero = util.getHero(this.props.slot);
       let kills = util.getPVPKills(hero.name);
+      console.log(kills.length);
 
       let killElements = kills.map((k, i) => {
         
@@ -46,14 +47,19 @@ class Player extends Component {
         let ability = util.getAbility(k.inflictor);
 
         let firstBlood = false;
+        let multiKill = null;
+
         if (k.firstBlood) {
           firstBlood = true;
         }
 
+        if(k.multiKill) {
+          multiKill = k.multiKill;
+        }
+
         return <Kill key={`Player${this.props.slot}-Kill${i}`}
                      tick={k.currentTick}
-                     firstBlood={firstBlood}
-                     attacker={attackerLocalized}
+                     multiKill={k.multiKill}
                      firstBlood={firstBlood}
                      currentTick={k.currentTick}
                      enemy={enemyLocalized}

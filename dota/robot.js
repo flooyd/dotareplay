@@ -54,11 +54,11 @@ const gotoTick = tick => {
   console.log(tick);
   clipboardy.write(tick).then(() => {
   robot.setKeyboardDelay(20);
-  ks.sendKey('p').then(() => {
+  ks.sendKey('f6').then(() => {
     robot.keyTap('a', 'control');
     robot.keyTap('v', 'control');
     robot.keyTap('enter');
-    ks.sendKey('p');
+    ks.sendKey('f6');
   });
  
   });
